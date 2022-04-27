@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:payfren/data/payments.dart';
+import 'package:payfren/models/user.dart';
 import 'package:payfren/pages/account.dart';
+import 'package:payfren/pages/login.dart';
 import 'package:payfren/theme.dart';
 import 'package:payfren/widgets/listOfPayments.dart';
 import 'package:payfren/widgets/recentlyPaid.dart';
@@ -16,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black12,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Row(
@@ -100,7 +102,8 @@ class _HomePageState extends State<HomePage> {
 Route _createRouteAccount() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const AccountPage(),
+        LoginPage(),
+        // AccountPage(accountUser: new User(firstName: "Matei", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;

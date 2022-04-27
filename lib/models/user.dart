@@ -1,6 +1,7 @@
 class User {
-  final String name;
+  final String firstName;
+  final String? lastName;
   final String userPhoto;
 
-  User({required this.name, required this.userPhoto});
+  User({required this.firstName, this.lastName, required this.userPhoto});
 }

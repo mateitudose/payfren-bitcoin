@@ -25,14 +25,14 @@ class RecentlyPaid extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () => {
-                    print("Pressed on " + paidContact.name)
+                    print("Pressed on " + paidContact.firstName)
                   },
                 ),
               )
             ),
           ),
           const SizedBox(height: 4),
-          Text(paidContact.name, style: PayfrenTheme.textTheme.bodyText1)
+          Text(paidContact.firstName, style: PayfrenTheme.textTheme.bodyText1)
         ],
       ),
     );

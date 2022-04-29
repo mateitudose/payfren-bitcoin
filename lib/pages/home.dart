@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:payfren/data/payments.dart';
 import 'package:payfren/models/user.dart';
 import 'package:payfren/pages/account.dart';
-import 'package:payfren/pages/login.dart';
+import 'package:payfren/testdata/users.dart';
+import 'package:payfren/testdata/payments.dart';
 import 'package:payfren/theme.dart';
 import 'package:payfren/widgets/listOfPayments.dart';
 import 'package:payfren/widgets/recentlyPaid.dart';
-import 'package:payfren/data/users.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +26,16 @@ class _HomePageState extends State<HomePage> {
             const Spacer(),
             IconButton(
               onPressed: () {
-                Navigator.of(context).push(_createRouteAccount());
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AccountPage(
+                              accountUser: user(
+                                  firstName: "Matei",
+                                  lastName: "Tudose",
+                                  userPhoto:
+                                      "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),
+                            )));
               },
               icon: const Icon(Icons.account_circle),
               iconSize: 36,
@@ -68,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white10)),
-                    hintText: "@username",
+                    hintText: "username",
                     hintStyle: PayfrenTheme.textTheme.bodyText2,
                     prefixIcon: const Icon(Icons.search, color: Colors.white)),
                 style: PayfrenTheme.textTheme.bodyText2,
@@ -99,22 +107,21 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Route _createRouteAccount() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        LoginPage(),
-        // AccountPage(accountUser: new User(firstName: "Matei", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
+// Route _createRouteAccount() {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) =>
+//         AccountPage(accountUser: new user(firstName: "Matei", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       const begin = Offset(0.0, 1.0);
+//       const end = Offset.zero;
+//       const curve = Curves.ease;
+//
+//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+//
+//       return SlideTransition(
+//         position: animation.drive(tween),
+//         child: child,
+//       );
+//     },
+//   );
+// }

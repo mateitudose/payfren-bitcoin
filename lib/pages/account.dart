@@ -1,12 +1,17 @@
+import 'package:appwrite/models.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:payfren/api/client.dart';
+import 'package:payfren/data/store.dart';
+import 'package:payfren/providers/auth.dart';
 import 'package:payfren/theme.dart';
+import 'package:provider/provider.dart';
 import '../models/user.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key, required this.accountUser}) : super(key: key);
 
-  final User accountUser;
+  final user accountUser;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +42,9 @@ class AccountPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               color: Colors.orange,
-              onPressed: () {
-                Navigator.of(context).pop();
-                print("Logging out...");
+              onPressed: () async {
+                  context.read<AccountProvider>().logout();
+                  Navigator.of(context).pop();
               },
             )
           ],

@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class RecentlyPaid extends StatelessWidget {
   const RecentlyPaid({Key? key, required this.paidContact}) : super(key: key);
 
-  final User paidContact;
+  final user paidContact;
 
   @override
   Widget build(BuildContext context) {

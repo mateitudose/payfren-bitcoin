@@ -27,15 +27,11 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AccountPage(
-                              accountUser: user(
-                                  firstName: "Matei",
-                                  lastName: "Tudose",
-                                  userPhoto:
-                                      "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => AccountPage(),
+                  ),
+                );
               },
               icon: const Icon(Icons.account_circle),
               iconSize: 36,
@@ -110,7 +106,7 @@ class _HomePageState extends State<HomePage> {
 // Route _createRouteAccount() {
 //   return PageRouteBuilder(
 //     pageBuilder: (context, animation, secondaryAnimation) =>
-//         AccountPage(accountUser: new user(firstName: "Matei", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
+//         AccountPage(accountUser: new user(firstName: "", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
 //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
 //       const begin = Offset(0.0, 1.0);
 //       const end = Offset.zero;

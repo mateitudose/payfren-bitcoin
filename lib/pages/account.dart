@@ -4,37 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:payfren/api/client.dart';
 import 'package:payfren/data/store.dart';
 import 'package:payfren/providers/auth.dart';
+import 'package:payfren/providers/userAccount.dart';
 import 'package:payfren/theme.dart';
 import 'package:provider/provider.dart';
-import '../models/user.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({Key? key, required this.accountUser}) : super(key: key);
-
-  final user accountUser;
+  AccountPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black12,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black12,
       ),
       body: Center(
         child: Column(
           children: [
-            CircleAvatar(
-              backgroundImage:
-                  CachedNetworkImageProvider(accountUser.userPhoto),
-              radius: 40,
-            ),
+            // CircleAvatar(
+            //   backgroundImage:
+            //       CachedNetworkImageProvider(),
+            //   radius: 40,
+            // ),
             const SizedBox(
               height: 6,
             ),
-            Text(
-              accountUser.firstName + " " + accountUser.lastName.toString(),
-              style: PayfrenTheme.textTheme.bodyText2,
-            ),
+            // Text(
+            //
+            //   style: PayfrenTheme.textTheme.bodyText2,
+            // ),
             MaterialButton(
               child: const Text("Log out"),
               textColor: Colors.white,
@@ -43,6 +41,8 @@ class AccountPage extends StatelessWidget {
               ),
               color: Colors.orange,
               onPressed: () async {
+                   // await context.read<UserData>().getProfile();
+                  // print(context.read<UserData>().user?.userID);
                   context.read<AccountProvider>().logout();
                   Navigator.of(context).pop();
               },

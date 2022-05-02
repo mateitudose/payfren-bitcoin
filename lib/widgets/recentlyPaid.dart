@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:payfren/models/user.dart';
+import 'package:payfren/models/userProfile.dart';
 import 'package:payfren/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class RecentlyPaid extends StatelessWidget {
   const RecentlyPaid({Key? key, required this.paidContact}) : super(key: key);
 
-  final user paidContact;
+  final UserProfile paidContact;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,14 @@ class RecentlyPaid extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () => {
-                    print("Pressed on " + paidContact.firstName)
+                    print("Pressed on " + paidContact.name)
                   },
                 ),
               )
             ),
           ),
           const SizedBox(height: 4),
-          Text(paidContact.firstName, style: PayfrenTheme.textTheme.bodyText1)
+          Text(paidContact.name, style: PayfrenTheme.textTheme.bodyText1)
         ],
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:payfren/models/user.dart';
 import 'package:payfren/pages/account.dart';
-import 'package:payfren/testdata/users.dart';
+import 'package:payfren/providers/userAccount.dart';
 import 'package:payfren/testdata/payments.dart';
 import 'package:payfren/theme.dart';
 import 'package:payfren/widgets/listOfPayments.dart';
@@ -14,6 +13,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future recentlyPaidFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    recentlyPaidFuture = _getRecentlyPaidFuture();
+  }
+
+  _getRecentlyPaidFuture() async {
+    return await UserData().getRecentlyPaid();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => AccountPage(),
+                    builder: (BuildContext context) => const AccountPage(),
                   ),
                 );
               },
@@ -52,16 +63,30 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 100,
-              child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) =>
-                      RecentlyPaid(paidContact: paidUsers[index]),
-                  separatorBuilder: (context, _) => const SizedBox(width: 5),
-                  itemCount: paidUsers.length),
-            ),
+            FutureBuilder(
+                future: recentlyPaidFuture,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    final recentUsers = snapshot.data;
+                    return SizedBox(
+                      height: 100,
+                      child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
+                              RecentlyPaid(paidContact: recentUsers[index]),
+                          separatorBuilder: (context, _) =>
+                              const SizedBox(width: 5),
+                          itemCount: recentUsers.length),
+                    );
+                  }
+                  return const SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.orange, strokeWidth: 3,),
+                    ),
+                  );
+                }),
             const SizedBox(height: 14),
             Container(
               height: 45,
@@ -102,22 +127,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// Route _createRouteAccount() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) =>
-//         AccountPage(accountUser: new user(firstName: "", lastName: "Tudose", userPhoto: "https://pps.whatsapp.net/v/t61.24694-24/166398836_1139498720182178_8886763049161767648_n.jpg?ccb=11-4&oh=007af13a907ea597afedbc5f1ad2a616&oe=6274DDA1"),),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(0.0, 1.0);
-//       const end = Offset.zero;
-//       const curve = Curves.ease;
-//
-//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-//
-//       return SlideTransition(
-//         position: animation.drive(tween),
-//         child: child,
-//       );
-//     },
-//   );
-// }

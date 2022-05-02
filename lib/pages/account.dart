@@ -55,7 +55,21 @@ class _AccountPageState extends State<AccountPage> {
                     loggedUser.name,
                     style: PayfrenTheme.textTheme.bodyText2,
                   ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  const Text(
+                    "You will receive BTC in wallet:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey, fontFamily: "Outfit"),
+                  ),
+                  Text(
+                    loggedUser.btcAddress,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey, fontFamily: "Outfit"),
+                  ),
+                  Spacer(),
                   MaterialButton(
+                    height: 45,
+                    minWidth: 100,
                     child: const Text("Log out"),
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -68,7 +82,17 @@ class _AccountPageState extends State<AccountPage> {
                         Navigator.of(context).pop();
                       });
                     },
-                  )
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  const Text(
+                    "Version 1.0",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey, fontFamily: "Outfit"),
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
                 ],
               ),
             ),

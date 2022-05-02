@@ -56,6 +56,7 @@ class UserData extends ChangeNotifier {
         var awaitProfile = await ApiClient.database.listDocuments(
             collectionId: Config.profileCollectionID,
             queries: [Query.equal("userID", person)]);
+        if (awaitProfile.documents.isEmpty) continue;
         _profile = awaitProfile.documents
             .map((document) => UserProfile.fromJson(document.data))
             .toList();

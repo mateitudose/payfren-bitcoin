@@ -42,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             height: 45,
+            margin: const EdgeInsets.only(right: 16, left: 16),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white12),
             child: TextField(
@@ -62,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             height: 45,
+            margin: const EdgeInsets.only(right: 16, left: 16),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white12),
             child: TextField(

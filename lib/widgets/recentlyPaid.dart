@@ -3,6 +3,7 @@ import 'package:payfren/models/userProfile.dart';
 import 'package:payfren/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:payfren/widgets/popover.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RecentlyPaid extends StatefulWidget {
   const RecentlyPaid({Key? key, required this.paidContact}) : super(key: key);
@@ -44,6 +45,7 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
   }
 
   void handleAvatarPressed() {
+    TextEditingController _amount = TextEditingController();
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -76,6 +78,7 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white12),
                       child: TextField(
+                        controller: _amount,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             focusedBorder: const UnderlineInputBorder(
@@ -89,10 +92,35 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
                         cursorColor: Colors.white12,
                       ),
                     ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                        fixedSize: const Size(45, 45),
+                        shape: const CircleBorder(),
+                      ),
+                      onPressed: () async {
+                        final amount = _amount.text;
+                        String uri = "bitcoin:";
+                        uri = uri +
+                            widget.paidContact.btcAddress +
+                            "?amount=" +
+                            amount;
+                        try {
+                          await launchUrlString(uri);
+                          return;
+                        } catch (e) {
+                          print(e.toString());
+                          return;
+                        }
+                      },
+                      child: const Icon(
+                        Icons.send,
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(
-                  height: 22,
+                  height: 30,
                 ),
               ],
             ),

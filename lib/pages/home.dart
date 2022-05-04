@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future recentlyPaidFuture;
+  TextEditingController _username = TextEditingController();
 
   @override
   void initState() {
@@ -94,6 +95,11 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white12),
               child: TextField(
+                controller: _username,
+                onSubmitted: (value) {
+                  _username.clear();
+
+                },
                 decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white10)),

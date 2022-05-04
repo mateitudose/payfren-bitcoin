@@ -107,9 +107,11 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
                             amount;
                         try {
                           await launchUrlString(uri);
+                          Navigator.of(context).pop();
                           return;
                         } catch (e) {
                           print(e.toString());
+                          Navigator.of(context).pop();
                           return;
                         }
                       },

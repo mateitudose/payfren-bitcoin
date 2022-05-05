@@ -6,6 +6,7 @@ import 'package:payfren/api/client.dart';
 import 'package:flutter/material.dart';
 import 'package:payfren/config.dart';
 import 'package:payfren/data/store.dart';
+import 'package:payfren/models/payment.dart';
 import 'package:payfren/models/userID.dart';
 import 'package:payfren/models/userProfile.dart';
 
@@ -33,7 +34,6 @@ class UserData extends ChangeNotifier {
       notifyListeners();
       return _user;
     } on AppwriteException catch (e) {
-      print(e.message);
       return null;
     }
   }
@@ -66,8 +66,49 @@ class UserData extends ChangeNotifier {
 
       return _listOfRecentlyPaid;
     } on AppwriteException catch (e) {
-      print(e.message);
       return null;
     }
+  }
+
+  Future<UserProfile?> getUserProfile(String userName) async {
+    List<UserProfile> profile;
+    UserProfile? userProfile;
+
+    final cached = await Store.get("session");
+    final userid = Session.fromMap(json.decode(cached)).userId;
+
+    var awaitProfile = await ApiClient.database.listDocuments(
+        collectionId: Config.profileCollectionID,
+        queries: [Query.equal("userName", userName)]);
+    profile = awaitProfile.documents
+        .map((document) => UserProfile.fromJson(document.data))
+        .toList();
+    if (profile.isEmpty) {
+      return null;
+    }
+    userProfile = profile[0];
+
+    if (userProfile.userID == userid) {
+      return null;
+    }
+    return userProfile;
+  }
+
+  Future<List<Payment>?> getPayments() async {
+    List<Payment> paymentsUser;
+
+    final cached = await Store.get("session");
+    final userid = Session.fromMap(json.decode(cached)).userId;
+
+    var awaitPayments = await ApiClient.database.listDocuments(
+        collectionId: Config.paymentsID,
+        queries: [Query.equal('userID', userid)]);
+    paymentsUser = awaitPayments.documents
+        .map((document) => Payment.fromJson(document.data))
+        .toList();
+
+    if (paymentsUser.isEmpty) return null;
+
+    return paymentsUser;
   }
 }

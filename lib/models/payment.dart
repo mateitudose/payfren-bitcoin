@@ -1,8 +1,13 @@
 class Payment {
-  final String paidTo;
-  final double amount;
-  final String currency;
-  final String date;
+  late String paidTo;
+  late double amount;
+  late String date;
 
-  Payment(this.paidTo, this.amount, this.currency, this.date);
+  Payment({required this.paidTo, required this.amount, required this.date});
+
+  Payment.fromJson(Map<String, dynamic> json) {
+    paidTo = json['paidTo'];
+    amount = json['amount'];
+    date = json['date'];
+  }
 }

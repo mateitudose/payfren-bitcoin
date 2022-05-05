@@ -46,9 +46,11 @@ class _LoginPageState extends State<LoginPage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white12),
             child: TextField(
+              textAlignVertical: TextAlignVertical.center,
               keyboardType: TextInputType.emailAddress,
               controller: _email,
               decoration: InputDecoration(
+                  isCollapsed: true,
                   focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white10)),
                   hintText: "Email",
@@ -67,9 +69,11 @@ class _LoginPageState extends State<LoginPage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white12),
             child: TextField(
+              textAlignVertical: TextAlignVertical.center,
               obscureText: true,
               controller: _password,
               decoration: InputDecoration(
+                  isCollapsed: true,
                   focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white10)),
                   hintText: "Password",
@@ -87,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 40,
             child: const Text(
               "Log in",
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             textColor: Colors.white,
             shape: RoundedRectangleBorder(
@@ -129,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 40,
             child: const Text(
               "Create a new account",
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             textColor: Colors.white,
             shape: RoundedRectangleBorder(

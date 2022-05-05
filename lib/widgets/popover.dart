@@ -12,7 +12,7 @@ class Popover extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(24.0),
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
         color: Colors.black,

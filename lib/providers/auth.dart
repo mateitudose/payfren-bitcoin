@@ -30,7 +30,6 @@ class AccountProvider extends ChangeNotifier {
       if (cached == null) {
         return false;
       }
-
       _session = cached;
     }
 

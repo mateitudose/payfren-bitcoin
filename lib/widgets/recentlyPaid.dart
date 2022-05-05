@@ -73,19 +73,22 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
                   children: [
                     Container(
                       height: 45,
-                      width: 200,
+                      width: 210,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white12),
                       child: TextField(
+                        textAlignVertical: TextAlignVertical.center,
+                        maxLines: 1,
                         controller: _amount,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            focusedBorder: const UnderlineInputBorder(
+                        decoration: const InputDecoration(
+                          isCollapsed: true,
+                            focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white10)),
                             hintText: "Bitcoin amount",
-                            hintStyle: PayfrenTheme.textTheme.bodyText2,
-                            prefixIcon: const Icon(
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(
                                 Icons.currency_bitcoin_outlined,
                                 color: Colors.white)),
                         style: PayfrenTheme.textTheme.bodyText2,

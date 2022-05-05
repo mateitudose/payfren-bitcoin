@@ -36,8 +36,7 @@ class PaymentCard extends StatelessWidget {
                 Text(
                   "-" +
                       cardTransaction.amount.toString() +
-                      " " +
-                      cardTransaction.currency,
+                      " BTC",
                   style: PayfrenTheme.textTheme.bodyText1,
                 ),
                 const Spacer()

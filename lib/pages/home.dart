@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:payfren/models/userProfile.dart';
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black12,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -133,7 +136,8 @@ class _HomePageState extends State<HomePage> {
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   } else {
                     data = userProfile!;
-                    handleAvatarPressed();
+                    Timer(
+                        const Duration(milliseconds: 350), handleAvatarPressed);
                   }
                 },
                 decoration: InputDecoration(
@@ -170,7 +174,21 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(width: 5),
                           itemCount: payments.length);
                     } else if (snapshot.data == null) {
-                      return Center(child: Column(children: []));
+                      return Center(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                            const Icon(
+                              Icons.currency_bitcoin_rounded,
+                              color: Colors.grey,
+                              size: 100,
+                            ),
+                            Text(
+                              "Make some payments!",
+                              style: PayfrenTheme.textTheme.headline2,
+                            )
+                          ]));
                     }
                     return const Center(
                       child: CircularProgressIndicator(
@@ -243,13 +261,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onPressed: () async {
                         final amount = _amount.text;
-                        String uri = "bitcoin:";
-                        uri = uri + data.btcAddress + "?amount=" + amount;
+                        String uriClassic = "bitcoin:";
+                        String uriLedgerLive = "ledgerlive://send?currency=btc&recipient=";
+                        uriClassic = uriClassic + data.btcAddress + "?amount=" + amount;
+                        uriLedgerLive = uriLedgerLive + data.btcAddress + "&amount=" + amount;
                         try {
-                          await launchUrlString(uri);
+                          await launchUrlString(uriLedgerLive);
+                          print(uriLedgerLive);
                           Navigator.of(context).pop();
                           return;
                         } catch (e) {
+                          await launchUrlString(uriClassic);
                           Navigator.of(context).pop();
                           return;
                         }

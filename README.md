@@ -1,6 +1,6 @@
-# payfren
+# Payfren by *Fluflu*
 
-Router for all your crypto payments
+Router for all your Bitcoin payments
 
 ## Getting Started
 

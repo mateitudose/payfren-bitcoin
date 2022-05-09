@@ -103,17 +103,21 @@ class _RecentlyPaidState extends State<RecentlyPaid> {
                       ),
                       onPressed: () async {
                         final amount = _amount.text;
-                        String uri = "bitcoin:";
-                        uri = uri +
+                        String uriClassic = "bitcoin:";
+                        String uriLedgerLive =
+                            "ledgerlive://send?currency=btc?recipient=";
+                        uriClassic =
+                            uriClassic + widget.paidContact.btcAddress + "?amount=" + amount;
+                        uriLedgerLive = uriLedgerLive +
                             widget.paidContact.btcAddress +
                             "?amount=" +
                             amount;
                         try {
-                          await launchUrlString(uri);
+                          await launchUrlString(uriLedgerLive);
                           Navigator.of(context).pop();
                           return;
                         } catch (e) {
-                          print(e.toString());
+                          await launchUrlString(uriClassic);
                           Navigator.of(context).pop();
                           return;
                         }

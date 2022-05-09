@@ -1,6 +1,4 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:payfren/pages/home.dart';
 import 'package:payfren/providers/auth.dart';
 import 'package:provider/provider.dart';
 import '../theme.dart';

@@ -7,8 +7,7 @@ class ApiClient {
 
     client
         .setEndpoint(Config.endPoint)
-        .setProject(Config.project)
-        .setSelfSigned();
+        .setProject(Config.project);
 
     return client;
   }

@@ -9,6 +9,7 @@ import 'package:payfren/data/store.dart';
 import 'package:payfren/models/payment.dart';
 import 'package:payfren/models/userID.dart';
 import 'package:payfren/models/userProfile.dart';
+import 'package:intl/intl.dart';
 
 class UserData extends ChangeNotifier {
   UserProfile? _user;
@@ -110,5 +111,26 @@ class UserData extends ChangeNotifier {
     if (paymentsUser.isEmpty) return null;
 
     return paymentsUser;
+  }
+
+  Future<String?> pushPayment(String paidTo, String amount) async {
+    final cached = await Store.get("session");
+    final userid = Session.fromMap(json.decode(cached)).userId;
+    final now = DateTime.now();
+    String dateString = DateFormat('dd-MM-yyyy').format(now);
+    final addPayment = Payment(
+        userID: userid,
+        paidTo: paidTo,
+        amount: amount,
+        date: dateString);
+    try {
+      await ApiClient.database.createDocument(
+          collectionId: Config.paymentsID,
+          documentId: 'unique()',
+          data: addPayment.toMap());
+      return null;
+    } on AppwriteException catch (e) {
+      return e.message;
+    }
   }
 }

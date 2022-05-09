@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                     return SizedBox(
                       height: 100,
                       child: ListView.separated(
+                          cacheExtent: double.infinity,
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) =>
@@ -135,9 +136,9 @@ class _HomePageState extends State<HomePage> {
                         SnackBar(content: Text("User name not found"));
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   } else {
+                    // TODO: Fix lag when popover shows up (after keyboard loses focus)
                     data = userProfile!;
-                    Timer(
-                        const Duration(milliseconds: 350), handleAvatarPressed);
+                    handleAvatarPressed();
                   }
                 },
                 decoration: InputDecoration(
@@ -171,9 +172,10 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, index) =>
                               PaymentCard(cardTransaction: payments[index]),
                           separatorBuilder: (context, _) =>
-                              const SizedBox(width: 5),
+                              const SizedBox(height: 12),
                           itemCount: payments.length);
-                    } else if (snapshot.data == null) {
+                    } else if (snapshot.connectionState.index.toInt() == 3 &&
+                        snapshot.data == null) {
                       return Center(
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,19 +264,26 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () async {
                         final amount = _amount.text;
                         String uriClassic = "bitcoin:";
-                        String uriLedgerLive = "ledgerlive://send?currency=btc&recipient=";
-                        uriClassic = uriClassic + data.btcAddress + "?amount=" + amount;
-                        uriLedgerLive = uriLedgerLive + data.btcAddress + "&amount=" + amount;
+                        String uriLedgerLive =
+                            "ledgerlive://send?currency=btc?recipient=";
+                        uriClassic =
+                            uriClassic + data.btcAddress + "?amount=" + amount;
+                        uriLedgerLive = uriLedgerLive +
+                            data.btcAddress +
+                            "?amount=" +
+                            amount;
                         try {
-                          await launchUrlString(uriLedgerLive);
-                          print(uriLedgerLive);
-                          Navigator.of(context).pop();
-                          return;
-                        } catch (e) {
                           await launchUrlString(uriClassic);
                           Navigator.of(context).pop();
-                          return;
+                        } catch (e) {
+                          await launchUrlString(uriLedgerLive);
+                          Navigator.of(context).pop();
                         }
+                        final res = await UserData().pushPayment(data.name, amount);
+                        if (res == null) {
+                          // TODO: Reload payments list if successful
+                        }
+                        return;
                       },
                       child: const Icon(
                         Icons.send,

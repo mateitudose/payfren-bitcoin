@@ -24,4 +24,4 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           name: "Payfren Latest Version"
-          token: $
+          token: ${{secrets.RELEASE_KEY}}

@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                         SnackBar(content: Text("User name not found"));
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   } else {
-                    // TODO: Fix lag when popover shows up (after keyboard loses focus)
+                    // TODO: Fix lag when popover shows up (after keyboard loses focus), because popover waits for data to be fetched
                     data = userProfile!;
                     handleAvatarPressed();
                   }
@@ -279,9 +279,12 @@ class _HomePageState extends State<HomePage> {
                           await launchUrlString(uriLedgerLive);
                           Navigator.of(context).pop();
                         }
-                        final res = await UserData().pushPayment(data.name, amount);
+                        final res =
+                            await UserData().pushPayment(data.name, amount);
                         if (res == null) {
-                          // TODO: Reload payments list if successful
+                          setState(() {
+                            paymentsFuture = _getPayments();
+                          });
                         }
                         return;
                       },

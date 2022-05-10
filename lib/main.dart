@@ -17,7 +17,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => AccountProvider()),
       ChangeNotifierProvider(create: (context) => UserData())
     ],
-    child: Payfren(),
+    child: const Payfren(),
   ));
 }
 

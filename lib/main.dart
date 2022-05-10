@@ -33,8 +33,8 @@ class Payfren extends StatelessWidget {
         future: context.read<AccountProvider>().isValid(),
         builder: (context, snapshot) =>
             context.watch<AccountProvider>().session == null
-                ? LoginPage()
-                : HomePage(),
+                ? const LoginPage()
+                : const HomePage(),
       ),
     );
   }

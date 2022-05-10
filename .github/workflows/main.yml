@@ -2,7 +2,7 @@ name: Payfren Release Android
 on:
   push:
     tags:
-      - '*'
+      - main
 jobs:
   releases:
     name: Build APK

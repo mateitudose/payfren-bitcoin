@@ -1,9 +1,14 @@
-# Payfren by *Fluflu*
+# Payfren
+---
 
-Router for all your Bitcoin payments
+Team name: **Fluflu**
 
-## Getting Started
+Team members: **Matei-Florian Tudose** from **Colegiul National de Informatica “Tudor Vianu”**
 
-1. Spawn an Appwrite instance to use as a backend
-2. Create collections for profile and user name mapping
-3. Customize config file with the required env variables
+---
+
+Payfren is an app that makes it easy to pay your friends in Bitcoin, replacing the old system of long addresses with user friendly names.
+
+---
+
+Pitch : TBA

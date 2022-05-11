@@ -7,7 +7,6 @@ import 'package:payfren/pages/account.dart';
 import 'package:payfren/providers/userAccount.dart';
 import 'package:payfren/theme.dart';
 import 'package:payfren/widgets/listOfPayments.dart';
-import 'package:payfren/widgets/recentlyPaid.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -84,15 +83,44 @@ class _HomePageState extends State<HomePage> {
                 future: recentlyPaidFuture,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    final recentUsers = snapshot.data;
+                    List<UserProfile> recentUsers = snapshot.data;
                     return SizedBox(
                       height: 100,
                       child: ListView.separated(
                           cacheExtent: double.infinity,
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) =>
-                              RecentlyPaid(paidContact: recentUsers[index]),
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              width: 80,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: CircleAvatar(
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          recentUsers[index].userPhoto,
+                                        ),
+                                        radius: 38,
+                                        child: Material(
+                                          shape: const CircleBorder(),
+                                          clipBehavior: Clip.hardEdge,
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () {
+                                              data = recentUsers[index];
+                                              handleAvatarPressed();
+                                            },
+                                          ),
+                                        )),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(recentUsers[index].name,
+                                      style: PayfrenTheme.textTheme.bodyText1)
+                                ],
+                              ),
+                            );
+                          },
                           separatorBuilder: (context, _) =>
                               const SizedBox(width: 5),
                           itemCount: recentUsers.length),
@@ -279,13 +307,12 @@ class _HomePageState extends State<HomePage> {
                           await launchUrlString(uriLedgerLive);
                           Navigator.of(context).pop();
                         }
-                        final res =
-                            await UserData().pushPayment(data.name, amount);
-                        if (res == null) {
-                          setState(() {
-                            paymentsFuture = _getPayments();
-                          });
-                        }
+                        await UserData().pushPayment(data.name, amount);
+                        await UserData().pushContact(data.userID);
+                        setState(() {
+                          paymentsFuture = _getPayments();
+                          recentlyPaidFuture = _getRecentlyPaidFuture();
+                        });
                         return;
                       },
                       child: const Icon(

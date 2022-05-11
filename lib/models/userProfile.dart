@@ -19,4 +19,14 @@ class UserProfile {
     userName = json['userName'];
     userID = json['userID'];
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "userPhoto": userPhoto,
+      "btcAddress": btcAddress,
+      "userName": userName,
+      "userID": userID,
+    };
+  }
 }

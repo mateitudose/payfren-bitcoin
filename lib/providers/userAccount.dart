@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:appwrite/appwrite.dart';
@@ -35,7 +36,7 @@ class UserData extends ChangeNotifier {
       notifyListeners();
       return _user;
     } on AppwriteException catch (e) {
-      return null;
+      print(e.message);
     }
   }
 
@@ -67,7 +68,7 @@ class UserData extends ChangeNotifier {
 
       return _listOfRecentlyPaid;
     } on AppwriteException catch (e) {
-      return null;
+      print(e.message);
     }
   }
 
@@ -113,24 +114,61 @@ class UserData extends ChangeNotifier {
     return paymentsUser;
   }
 
-  Future<String?> pushPayment(String paidTo, String amount) async {
+  Future<void> pushPayment(String paidTo, String amount) async {
     final cached = await Store.get("session");
     final userid = Session.fromMap(json.decode(cached)).userId;
     final now = DateTime.now();
     String dateString = DateFormat('dd-MM-yyyy').format(now);
     final addPayment = Payment(
-        userID: userid,
-        paidTo: paidTo,
-        amount: amount,
-        date: dateString);
+        userID: userid, paidTo: paidTo, amount: amount, date: dateString);
     try {
       await ApiClient.database.createDocument(
           collectionId: Config.paymentsID,
           documentId: 'unique()',
           data: addPayment.toMap());
-      return null;
     } on AppwriteException catch (e) {
-      return e.message;
+      print(e.message);
+    }
+  }
+
+  Future<void> pushContact(String contactID) async {
+    final cached = await Store.get("session");
+    final userid = Session.fromMap(json.decode(cached)).userId;
+    var paidUsers = await ApiClient.database.listDocuments(
+        collectionId: Config.recentlyPaidID,
+        queries: [Query.equal("userID", userid)]);
+    if (paidUsers.total == 0) {
+      final Map<String, dynamic> data = <String, dynamic>{};
+      List<String> contactsList = [];
+      contactsList.add(contactID);
+      data['userID'] = userid;
+      data['paid'] = contactsList;
+      try {
+        await ApiClient.database.createDocument(
+          collectionId: Config.recentlyPaidID,
+          documentId: 'unique()',
+          data: data,
+        );
+      } on AppwriteException catch (e) {
+        print(e.message);
+      }
+      return;
+    }
+    _paidUsersIDs = paidUsers.documents
+        .map((document) => PaidUserIDs.fromJson(document.data))
+        .first;
+    if (_paidUsersIDs?.paid.contains(contactID) == true) {
+      return;
+    }
+    _paidUsersIDs?.paid.add(contactID);
+    var mapOfIDs = _paidUsersIDs?.toMap();
+    try {
+      await ApiClient.database.updateDocument(
+          collectionId: Config.recentlyPaidID,
+          documentId: _paidUsersIDs!.docID.toString(),
+          data: mapOfIDs!);
+    } on AppwriteException catch (e) {
+      print(e.message);
     }
   }
 }

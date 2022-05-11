@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - dev
       
 name: "Build & Release Payfren"
 
@@ -22,7 +21,7 @@ jobs:
         with:
           flutter-version: '2.10.5'
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build apk --split-per-abi
       - run: |
           flutter build ios --no-codesign
           cd build/ios/iphoneos

@@ -27,7 +27,7 @@ The app is connected to a production DB in cloud and credentials are encrypted w
 
 ---
 
-Pitch : TBA
+Pitch : https://youtu.be/MUl1d3SXvCw
 
 ---
 

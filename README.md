@@ -1,4 +1,4 @@
-# Payfren (1st place at [Hardcore Entrepreneur Hackathon 2.0](https://punctulit.club/))
+# Payfren (Bitcoin version) (1st place at [Hardcore Entrepreneur Hackathon 2.0](https://punctulit.club/))
 
 ---
 
